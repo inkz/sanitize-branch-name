@@ -13,10 +13,12 @@ runs:
     - name: "Determine Branch"
       id: determine_branch
       shell: bash
+      env:
+        BRANCH: ${{ github.head_ref }}
+        REF: ${{ github.ref }}
       run: |
-        BRANCH=${{ github.head_ref }}
         if [ "$BRANCH" == "" ]; then
-            BRANCH=$(echo ${{ github.ref }} | sed 's/refs\/heads\///');
+            BRANCH=$(echo $REF | sed 's/refs\/heads\///');
         fi;
         echo "Determined branch: $BRANCH"
         echo "branch_name=$BRANCH" >> $GITHUB_OUTPUT;
